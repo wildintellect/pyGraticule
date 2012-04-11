@@ -15,7 +15,7 @@
 #   limitations under the License.
 
 #set the stepping of the increment
-step = 30
+step = 1
 outfile = "graticule_%ddd.geojson" % (step)
 
 grid = open(outfile,"w")
@@ -72,7 +72,7 @@ for y in range(-180,181,step):
         grid.write("]")
         
     #Figure out if it's East or West
-    if x >= 0:
+    if y >= 0:
         direction = "W"
     else:
         direction = "E"
