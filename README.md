@@ -18,8 +18,9 @@ There are two script arguments for controlling the density of nodes and the outp
 
 ## Limitations
 
-The output is lines, not polygons feature classes.
-The output is a GeoJSON format file, not a SHP format Esri Shapefile.
+* The output is lines, not polygons feature classes.
+
+* The output is a GeoJSON format file, not a SHP format Esri Shapefile.
 
 ## Examples
 
