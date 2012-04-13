@@ -31,6 +31,10 @@ parser.add_option('-s', '--step_interval', dest='step_interval', default=1, type
 parser.add_option('-o', dest='outfilename', default='',
                   help='Output filename (with or without path), defaults to "graticule_1dd.geojson".')
 
+#parser.add_option('-p', '--shp', dest='shapefile', default=False, type='boolean",
+#                  help='Output a SHP file, defaults to False and requires ORG/GDAL.')
+
+
 (options, args) = parser.parse_args()
 
 
@@ -41,12 +45,14 @@ out_file = options.outfilename
 if out_file:
     # remember the directory that file is contained by
     out_dir = os.path.dirname( os.path.abspath(out_file) )
+    out_name = os.path.basename( os.path.abspath(out_file) )
 else:
     out_dir = 'output/'
     # destination file
     out_extension = 'geojson'
     # for the demo, we put the results in an "output dir for prettier results    
-    out_file = (out_dir + 'graticule_%ddd' + '.' + out_extension) % (step)
+    out_name = ('graticule_%ddd') % (step)
+    out_file = out_dir + out_name + '.' + out_extension
 
 # If the output directory doesn't exist, make it so we don't error later on file open()
 if not os.path.exists(out_dir):
@@ -126,3 +132,9 @@ for y in range(-180,181,step):
 
 grid.writelines(footer)
 grid.close()
+
+#if shapefile:
+#    try:
+#        ogr2ogr -f "ESRI Shapefile" out_file  out_file
+#    except:
+#        pass
