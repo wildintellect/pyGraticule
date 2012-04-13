@@ -10,12 +10,9 @@
       "properties": {
         "degrees": "",
         "direction": "",
-	  "display":"",
-	  "dd":"",
-
-        }
-      },
-  
-     ]
-   }
-
+        "display":"",
+        "dd":""
+      }
+    }
+  ]
+}
