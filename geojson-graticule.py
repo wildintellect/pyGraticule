@@ -14,11 +14,18 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+import os
+
 #set the stepping of the increment
 step = 1
-outfile = "graticule_%ddd.geojson" % (step)
+outdir = "output"
+outfile = outdir + "/" +"graticule_%ddd.geojson" % (step)
+
+if not os.path.exists(outdir):
+    os.makedirs(outdir)
 
 grid = open(outfile,"w")
+    
 header = ['{ "type": "FeatureCollection",','"features": [']
 footer = [']','}']
 grid.writelines(header)
