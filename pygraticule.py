@@ -21,6 +21,8 @@ import sys, math
 import os, stat
 from optparse import OptionParser
 
+#TODO: Take bounding box as arg for setting range
+ 
 parser = OptionParser(usage="""%prog [options]
 
 Generates a GeoJSON file with graticules spaced at specified interval.""")
@@ -31,6 +33,7 @@ parser.add_option('-s', '--step_interval', dest='step_interval', default=1, type
 parser.add_option('-o', dest='outfilename', default='',
                   help='Output filename (with or without path), defaults to "graticule_1dd.geojson".')
 
+#TODO: Implement python OGR writing for multiple output format support.
 #parser.add_option('-p', '--shp', dest='shapefile', default=False, type='boolean",
 #                  help='Output a SHP file, defaults to False and requires ORG/GDAL.')
 
@@ -39,6 +42,7 @@ parser.add_option('-o', dest='outfilename', default='',
 
 
 #set the stepping of the increment, converting from string to interger
+#TODO: Calculate a node density based on the bounding box and interval defined by the user
 step = options.step_interval
 # destination file
 out_file = options.outfilename
