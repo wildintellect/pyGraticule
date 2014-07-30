@@ -39,17 +39,17 @@ There are two script arguments for controlling the density of nodes and the outp
 
 * The output is lines, not polygons feature classes.
 
-* The output is a GeoJSON format file, not a SHP format Esri Shapefile.
+* The output is a GeoJSON format file, not a SHP format Esri Shapefile. (You can easily convert it with OGR, QGIS, etc...)
 
 * Graticule is created in local coordinates (purely numeric).
 
 ## Examples
 
 When we project out of WGS84 to another coordinate system that is not cylindrical, we need to have enough intermediate nodes
-on the paths so the GIS application shows a "curve". Most GIS do not auto-densify stright lines during the projection
+on the paths so the GIS application shows a "curve". Most GIS do not auto-densify straight lines during the projection
 so we need to add these extra nodes in the raw geodata.
 
-Here we see Robinson using enough nodes:
+Here we see Robinson Projection using enough nodes:
 
 ![Zoom previews](https://github.com/wildintellect/pygraticule/raw/master/images/robinson.png)
 
