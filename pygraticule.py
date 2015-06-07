@@ -95,7 +95,7 @@ def make_graticule(outfile,minX=-180, minY=-90, maxX=180, maxY=90, step=10,densi
             "type": "LineString",
             "coordinates": ['''
         grid.write(featstart)
-        for y in range(minY,maxY+1,1):
+        for y in range(minY,maxY+1,density):
             if y == minY:
                 grid.write("[")
             else:
