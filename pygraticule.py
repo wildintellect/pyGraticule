@@ -106,9 +106,9 @@ def make_graticule(outfile,minX=-180, minY=-90, maxX=180, maxY=90, step=10,densi
             
         # Figure out if it's East or West
         if x >= 0:
-            direction = "W"
-        else:
             direction = "E"
+        else:
+            direction = "W"
         label = " ".join([str(abs(x)),direction])
         featend = ''']},
           "properties": {
