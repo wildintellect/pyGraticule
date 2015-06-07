@@ -109,7 +109,7 @@ def make_graticule(outfile,minX=-180, minY=-90, maxX=180, maxY=90, step=10,densi
             direction = "W"
         else:
             direction = "E"
-        label = " ".join([str(abs(y)),direction])
+        label = " ".join([str(abs(x)),direction])
         featend = ''']},
           "properties": {
             "degrees": %d,
