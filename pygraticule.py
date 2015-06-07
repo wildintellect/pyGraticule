@@ -18,20 +18,20 @@
 #   limitations under the License.
 
 # The following double # section makes this script compatible with QGIS Processing Toolbox
-## minX = number -180
-## maxX = number 180
-## minY = number -90
-## maxY = number 90
-## steps = number 10
-## density = number 1
-## outfile = file
+##minX=number -180
+##maxX=number 180
+##minY=number -90
+##maxY=number 90
+##step=number 10
+##density=number 1
+##outfile=output file
 
 
 #import sys, math, stat
 import os
 from optparse import OptionParser
 
-def make_graticule(minX=-180, minY=-90, maxX=180, maxY=90, step=10,density=1,outfile):
+def make_graticule(outfile,minX=-180, minY=-90, maxX=180, maxY=90, step=10,density=1):
     if outfile:
         # remember the directory that file is contained by
         outdir = os.path.dirname( os.path.abspath(outfile) )
@@ -58,26 +58,26 @@ def make_graticule(minX=-180, minY=-90, maxX=180, maxY=90, step=10,density=1,out
     grid.writelines(header)
         
     # Create Geojson lines horizontal, latitude
-    for i in range(minY,maxY+1,step):
+    for y in range(minY,maxY+1,step):
         featstart = '''{ "type": "Feature",
           "geometry": {
             "type": "LineString",
             "coordinates": ['''
         grid.write(featstart)
-        for j in range(minX,maxX+1,density):
-            if j == minX:
+        for x in range(minX,maxX+1,density):
+            if x == minX:
                 grid.write("[")
             else:
                 grid.write(",[")
             #print y,x
-            grid.write(",".join([str(j),str(i)]))
+            grid.write(",".join([str(x),str(y)]))
             grid.write("]")
         # Figure out if it's North or South
-        if i >= 0:
+        if y >= 0:
             direction = "N"
         else:
             direction = "S"
-        label = " ".join([str(abs(i)),direction])
+        label = " ".join([str(abs(y)),direction])
         featend = ''']},
           "properties": {
             "degrees": %d,
@@ -85,27 +85,27 @@ def make_graticule(minX=-180, minY=-90, maxX=180, maxY=90, step=10,density=1,out
           "display":"%s",
           "dd":%d,
             }
-          },\n''' % (abs(i),direction,label,i)
+          },\n''' % (abs(y),direction,label,y)
         grid.write(featend)
     
     # Create lines vertical
-    for y in range(minX,maxX+1,step):
+    for x in range(minX,maxX+1,step):
         featstart = '''{ "type": "Feature",
           "geometry": {
             "type": "LineString",
             "coordinates": ['''
         grid.write(featstart)
-        for x in range(minY,maxY+1,1):
-            if x == minY:
+        for y in range(minY,maxY+1,1):
+            if y == minY:
                 grid.write("[")
             else:
                 grid.write(",[")
             #print y,x
-            grid.write(",".join([str(y),str(x)]))
+            grid.write(",".join([str(x),str(y)]))
             grid.write("]")
             
         # Figure out if it's East or West
-        if y >= 0:
+        if x >= 0:
             direction = "W"
         else:
             direction = "E"
@@ -117,7 +117,7 @@ def make_graticule(minX=-180, minY=-90, maxX=180, maxY=90, step=10,density=1,out
           "display":"%s",
           "dd":%d,
             }
-          },\n''' % (abs(y),direction,label,y)
+          },\n''' % (abs(x),direction,label,x)
         grid.write(featend)
     
     grid.writelines(footer)
@@ -155,4 +155,9 @@ if __name__ == '__main__':
     step = options.step_interval
     # destination file
     outfile = options.outfilename
-    make_graticule(-180,-90,180,90,step=step,density=1,outfile=outfile)
+    density = 1
+    #make_graticule(outfile, -180, -90, 180, 90, step, density)
+
+
+if __name__ != '__main__':
+    make_graticule(outfile, minX, minY, maxX, maxY, step, density)
