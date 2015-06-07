@@ -21,15 +21,17 @@
 ## minX = number -180
 ## maxX = number 180
 ## minY = number -90
-## maxX = number 90
+## maxY = number 90
+## steps = number 10
+## density = number 1
 ## outfile = file
 
 
-import sys, math
-import os, stat
+#import sys, math, stat
+import os
 from optparse import OptionParser
 
-def make_graticule(minX=-180, minY=-90, maxX=180, maxY=90, step=1,outfile):
+def make_graticule(minX=-180, minY=-90, maxX=180, maxY=90, step=10,density=1,outfile):
     if outfile:
         # remember the directory that file is contained by
         outdir = os.path.dirname( os.path.abspath(outfile) )
@@ -56,26 +58,26 @@ def make_graticule(minX=-180, minY=-90, maxX=180, maxY=90, step=1,outfile):
     grid.writelines(header)
         
     # Create Geojson lines horizontal, latitude
-    for x in range(minY,maxY+1,step):
+    for i in range(minY,maxY+1,step):
         featstart = '''{ "type": "Feature",
           "geometry": {
             "type": "LineString",
             "coordinates": ['''
         grid.write(featstart)
-        for y in range(minX,maxX+1,1):
-            if y == minX:
+        for j in range(minX,maxX+1,density):
+            if j == minX:
                 grid.write("[")
             else:
                 grid.write(",[")
             #print y,x
-            grid.write(",".join([str(y),str(x)]))
+            grid.write(",".join([str(j),str(i)]))
             grid.write("]")
         # Figure out if it's North or South
-        if x >= 0:
+        if i >= 0:
             direction = "N"
         else:
             direction = "S"
-        label = " ".join([str(abs(x)),direction])
+        label = " ".join([str(abs(i)),direction])
         featend = ''']},
           "properties": {
             "degrees": %d,
@@ -83,7 +85,7 @@ def make_graticule(minX=-180, minY=-90, maxX=180, maxY=90, step=1,outfile):
           "display":"%s",
           "dd":%d,
             }
-          },\n''' % (abs(x),direction,label,x)
+          },\n''' % (abs(i),direction,label,i)
         grid.write(featend)
     
     # Create lines vertical
@@ -153,3 +155,4 @@ if __name__ == '__main__':
     step = options.step_interval
     # destination file
     outfile = options.outfilename
+    make_graticule(-180,-90,180,90,step=step,density=1,outfile=outfile)
