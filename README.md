@@ -11,7 +11,7 @@ Script was originally written as a demonstration for students in Intro to GIS pr
 
 ##License
 
-By **Alex Mandel** Copyright 2012. 
+By **Alex Mandel** Copyright 2012-2015. 
 Modifications by Nathaniel Vaughn KELSO.
 
   Licensed under the Apache License, Version 2.0 (the "License");

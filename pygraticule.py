@@ -1,4 +1,4 @@
-# By Alex Mandel Copyright 2012
+# By Alex Mandel Copyright 2012-2015
 # Modifications by Nathaniel Vaughn KELSO
 #
 # Script to generate a graticule that will reproject cleanly(smooth arcs) at world scale
@@ -120,6 +120,7 @@ def make_graticule(outfile,minX=-180, minY=-90, maxX=180, maxY=90, step=10,densi
           },\n''' % (abs(x),direction,label,x)
         grid.write(featend)
     
+    # TODO: move writing to it's own function
     grid.writelines(footer)
     grid.close()
 
@@ -130,17 +131,22 @@ def make_graticule(outfile,minX=-180, minY=-90, maxX=180, maxY=90, step=10,densi
 #        pass
 
 if __name__ == '__main__':
-    #TODO: Take bounding box as arg for setting range
+    #When script is run directly or from command line take command arguements.
  
     parser = OptionParser(usage="""%prog [options]
     
     Generates a GeoJSON file with graticules spaced at specified interval.""")
     
-    parser.add_option('-s', '--step_interval', dest='step_interval', default=1, type='int',
-                      help='Step interval in decimal degrees, defaults to 1.')
+    parser.add_option('-s', '--step_interval', dest='step_interval', default=10, type='float',
+                      help='Step interval in map units (e.g. decimal degrees for Lat/Lon), defaults to 10.')
     
     parser.add_option('-o', dest='outfilename', default='',
                       help='Output filename (with or without path), defaults to "graticule_1dd.geojson".')
+
+    parser.add_option('-d', '--density', dest='density', default=1, type="float",
+                      help='How often to place a node in map units, the more nodes the smoother, should always be smaller than --step_interval defaults to 1.')    
+    
+    #TODO: Take bounding box as arg for setting range
     
     #TODO: Implement python OGR writing for multiple output format support.
     #parser.add_option('-p', '--shp', dest='shapefile', default=False, type='boolean",
@@ -151,13 +157,17 @@ if __name__ == '__main__':
     
     
     #set the stepping of the increment, converting from string to interger
-    #TODO: Calculate a node density based on the bounding box and interval defined by the user
     step = options.step_interval
     # destination file
     outfile = options.outfilename
-    density = 1
-    #make_graticule(outfile, -180, -90, 180, 90, step, density)
+    #TODO: Calculate a node density based on the bounding box and interval defined by the user
+    density = options.density
+    
+    #Call function to create graticule and save geojson file
+    make_graticule(outfile, -180, -90, 180, 90, step, density)
 
 
 if __name__ != '__main__':
+    # When code is executed as part of another application run this section.
+    # Specifically configured only to work with QGIS Processing Toolbox right now. 
     make_graticule(outfile, minX, minY, maxX, maxY, step, density)
