@@ -18,6 +18,7 @@
 #   limitations under the License.
 
 # The following double # section makes this script compatible with QGIS Processing Toolbox
+##Vector=group
 ##minX=number -180
 ##maxX=number 180
 ##minY=number -90
