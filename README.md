@@ -1,15 +1,15 @@
-PyGraticule
-================
+# PyGraticule
 
-#About
+
+## About
 
 Python script to generate a graticule that will project cleanly (with smooth arcs) at world scale. The graticule should have a dense distribution of internal nodes along it's line, especially along the ±180, ±90 WGS84 bounding box.
 
-##History
+### History
 
 Script was originally written as a demonstration for students in Intro to GIS programming with python. Output format is geojson, because it's easy to write as a text file in python. Use ogr2ogr to convert to a SHP file.
 
-##License
+### License
 
 By **Alex Mandel** Copyright 2012-2015. 
 Modifications by Nathaniel Vaughn KELSO.
@@ -25,7 +25,7 @@ Modifications by Nathaniel Vaughn KELSO.
   limitations under the License.
 
 
-#Usage
+## Usage
 
 `python pygraticule.py -s 1 -o outfile.geojson`
 
